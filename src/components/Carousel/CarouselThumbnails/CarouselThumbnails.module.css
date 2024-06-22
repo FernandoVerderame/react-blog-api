@@ -1,0 +1,16 @@
+.img {
+    width: 200px;
+    display: block;
+    filter: grayscale(1);
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.active {
+    filter: grayscale(0);
+}
+
+.img:hover {
+    transform: translateY(-10px);
+    filter: grayscale(0);
+}

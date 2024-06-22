@@ -1,0 +1,104 @@
+.cardForm {
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 3px 20px 62px -25px #000;
+    background-color: white;
+}
+
+.cardTitle {
+    font-size: 20px;
+    padding: 20px;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+.cardBody {
+    padding: 20px;
+}
+
+.cardInput {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 20px;
+}
+
+input {
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 4px;
+}
+
+textarea {
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 4px;
+
+}
+
+.cardBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+.postCard {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.deleteBtn {
+    font-size: 20px;
+    padding: 5px;
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 40px;
+}
+
+.inputError {
+    border: 1px solid red;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 14px;
+}
+
+ul {
+    margin-top: 5px;
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+li {
+    display: flex;
+    gap: 5px;
+}
+
+.published {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.categorySelect {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
