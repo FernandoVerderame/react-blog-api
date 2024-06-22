@@ -3,11 +3,10 @@ import { useState } from 'react';
 import formStyle from './Form.module.css';
 import { IoMdClose as Delete } from "react-icons/io";
 import PostCard from '../Card/PostCard';
+import axios from "axios";
+const apiUrl = import.meta.env.VITE_BASE_API_URL;
 
-const Form = () => {
-
-    const tagsList = ['html', 'css', 'js', 'php'];
-    const categoriesList = ['Frontend', 'Backend', 'Database'];
+const Form = ({ tags, categories, onCreate }) => {
 
     // Post di default
     const defaultPostData = {
@@ -15,7 +14,7 @@ const Form = () => {
         title: '',
         image: '',
         content: '',
-        category: null,
+        categoryId: '',
         tags: [],
         published: false
     }
@@ -53,15 +52,36 @@ const Form = () => {
     }
 
     // Submit del Form
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const validationErrors = validateForm();
 
         if (Object.keys(validationErrors).length === 0) {
-            setPosts(array => ([...array, postData]));
-            setPostData(defaultPostData);
-            setErrors({});
+            const tagIds = tags.filter(tag => postData.tags.includes(tag.name)).map(tag => tag.id);
+            try {
+                const res = await axios.post(`${apiUrl}/posts`, {
+                    ...postData,
+                    tags: tagIds
+                }, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (res.status < 400) {
+                    onCreate();
+                    setPostData(defaultPostData);
+                    setErrors({});
+                } else {
+                    console.error("Errore nella creazione del post:", res.data); // Log dell'errore specifico dal server
+                    // Gestisci l'errore in base alla risposta dal server
+                    // Esempio: Mostra un messaggio all'utente o esegui azioni appropriate
+                }
+            } catch (error) {
+                console.error("Errore durante la creazione del post:", error);
+                // Gestisci l'errore in modo generale, ad esempio mostrando un messaggio generico di errore
+            }
         } else {
             setErrors(validationErrors);
         }
@@ -136,18 +156,18 @@ const Form = () => {
                         <div>
                             <h3>Categoria</h3>
                             <select
-                                id="category"
-                                name="category"
-                                defaultValue={postData.category}
-                                onChange={(e) => changePostData('category', e.target.value)}
+                                id="categoryId"
+                                name="categoryId"
+                                defaultValue={postData.categoryId}
+                                onChange={(e) => changePostData('categoryId', e.target.value)}
                                 className={formStyle.categorySelect}
                             >
                                 <option value="">Seleziona una categoria</option>
-                                {categoriesList.map((category, i) => (
+                                {categories.map(c => (
                                     <option
-                                        key={`category-${i}`}
-                                        value={category}>
-                                        {category}
+                                        key={`categoryId${c.id}`}
+                                        value={c.id}>
+                                        {c.name}
                                     </option>
                                 ))}
                             </select>
@@ -157,22 +177,22 @@ const Form = () => {
                         <div>
                             <h3>Tags</h3>
                             <ul>
-                                {tagsList.map((name, i) => (
-                                    <li key={`tag-${i}`}>
+                                {tags.map((tag) => (
+                                    <li key={tag.id}>
                                         <input
                                             type='checkbox'
-                                            id={`tag-${i}`}
-                                            name={`tag-${i}`}
-                                            checked={postData.tags.includes(name)}
+                                            id={tag.id}
+                                            name={tag.id}
+                                            checked={postData.tags.includes(tag.id)}
                                             onChange={() => {
                                                 const curr = postData.tags;
-                                                const newTags = curr.includes(name) ?
-                                                    curr.filter(el => el !== name) :
-                                                    [...curr, name];
+                                                const newTags = curr.includes(tag.id) ?
+                                                    curr.filter(el => el !== tag.id) :
+                                                    [...curr, tag.id];
                                                 handleField('tags', newTags);
                                             }}
                                         />
-                                        <label htmlFor={`tag-${i}`}>{name}</label>
+                                        <label htmlFor={tag.id}>{tag.name}</label>
                                     </li>
                                 ))}
                             </ul>
@@ -197,7 +217,7 @@ const Form = () => {
                 </div>
             </div >
 
-            <h3>Lista dei nuovi Post</h3>
+            {/* <h3>Lista dei nuovi Post</h3>
             {
                 posts.map(({ id, title, image, content, category, tags, published }, i) => (
                     published === true &&
@@ -214,7 +234,7 @@ const Form = () => {
                         </button>
                     </div>
                 ))
-            }
+            } */}
         </>
     );
 }

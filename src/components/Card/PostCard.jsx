@@ -35,7 +35,7 @@ const PostCard = ({ title, content, image, category, tags }) => {
                             <div>
                                 <ul className={postCardStyle.tags}>
                                     {tags.map((tag, i) => (
-                                        <li key={`tag${i}`} style={{ backgroundColor: tagColors[tag] }} className={postCardStyle.badge}>{tag}</li>
+                                        <li key={`tag${i}`} style={{ backgroundColor: tagColors[tag.name] || '#ccc' }} className={postCardStyle.badge}>{tag.name}</li>
                                     ))}
                                 </ul>
                             </div>

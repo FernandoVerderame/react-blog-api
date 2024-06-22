@@ -1,0 +1,21 @@
+.paginator {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    user-select: none;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
